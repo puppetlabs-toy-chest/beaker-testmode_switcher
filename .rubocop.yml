@@ -1,0 +1,18 @@
+# disallow ridiculously long lines
+Metrics/LineLength:
+  Max: 200
+
+# disallow ridiculously long functions
+Metrics/MethodLength:
+  Max: 200
+
+# disallow ridiculously complex functions
+Metrics/AbcSize:
+  Max: 100
+
+# Don't be picky about string quoting
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false

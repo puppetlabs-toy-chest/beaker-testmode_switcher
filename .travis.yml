@@ -1,6 +1,6 @@
 language: ruby
 cache: bundler
-script: rspec spec
+bundler_args: --without development
 rvm:
   - 2.2.0
   - 2.0.0
