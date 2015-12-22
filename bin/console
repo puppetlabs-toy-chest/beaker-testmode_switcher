@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "beaker/testmode_switcher"
+
+# Add fixtures and/or initialization code here to make experimenting
+# with the gem easier.
+
+require "pry"
+Pry.start

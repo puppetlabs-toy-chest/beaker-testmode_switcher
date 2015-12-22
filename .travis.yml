@@ -1,0 +1,6 @@
+language: ruby
+cache: bundler
+script: rspec spec
+rvm:
+  - 2.2.0
+  - 2.0.0
