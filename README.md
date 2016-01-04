@@ -4,10 +4,6 @@ When testing modules with beaker, you need to choose up-front whether to drive t
 
 Beaker::TestmodeSwitcher supports running tests in master/agent mode, or using `puppet apply` or locally without any setup.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
 ## Usage
 
 Set up you module for beaker testing as usual. Additionally add
@@ -16,13 +12,45 @@ Set up you module for beaker testing as usual. Additionally add
 gem 'beaker-testmode_switcher'
 ```
 
-to the `:system_tests` group in your module's Gemfile. Instead of using `#apply_manifest_on` or `#run_agent_on` you can now use `#execute_manifest_on` and - depending on the test mode - will upload and execute the manifest on the right node(s).
+to the `:system_tests` group in your module's Gemfile. Add
+
+```ruby
+require 'beaker/testmode_switcher/dsl'
+```
+
+to your `spec/spec_helper_acceptance.rb` to enable the DSL extensions. Instead of using `#apply_manifest_on` or `#run_agent_on` you can now use `#execute_manifest_on` and - depending on the test mode - will upload and execute the manifest on the right node(s).
 
 The `BEAKER_TESTMODE` environment variable determines how the tests are run:
 
 * `local`: No VMs are provisioned and tests are run with `puppet apply` using the context of your test runner. This mode uses the least resources and is great for development, but may require running the tests as root and could trash the system.
-* `apply`: VMs are provisioned as normal (determined by the nodeset) and tests are run with `puppet apply` on the specified node. This mode only requires a single VM and is great for running the tests in an isolated environment.
-* `agent`: VMs are provisioned as normal (determined by the nodeset). When running tests, the manifest is uploaded to the master and a full `puppet agent` run is kicked off on the specified node. This mode requires multiple VMs and a more involved provisioning step, but the tests run in a very production-like environment to ensure highest fidelity of the test results.
+* `apply`: VMs are provisioned as normal (determined by the nodeset) and tests are run with `puppet apply` on the specified node. This mode only requires a single VM and is great for running the tests in an isolated environment. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the manifests.
+* `agent`: VMs are provisioned as normal (determined by the nodeset). When running tests, the manifest is uploaded to the master and a full `puppet agent` run is kicked off on the specified node. This mode requires multiple VMs and a more involved provisioning step, but the tests run in a very production-like environment to ensure highest fidelity of the test results. The nodeset needs to contain one node with the 'master' role assigned. This will be the node to receive the manifest. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the puppet agent.
+
+## Reference
+
+This experimental version supports only a minimal set of functionality from the beaker DSL:
+
+* `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:user`, and `:group` to specify the permissions, owner, and group respectively.
+
+* `execute_manifest(manifest, opts = {})`: Execute the manifest on the default node. Depending on the `BEAKER_TESTMODE` environment variable, this may use `puppet agent` or `puppet apply`.
+  `opts` keys:
+  * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
+  * `:dry_run`: set to true to skip executing the actual command.
+  * `:environment`: pass environment variables for the command as a hash.
+
+* `resource(type, name, opts = {})`: Runs `puppet resource` with the specified `type` and `name` arguments.
+  `opts` keys:
+  * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
+  * `:values`: pass a hash of key/value pairs which is passed on the commandline to `puppet resource` to influence the specified resource.
+  * `:dry_run`: set to true to skip executing the actual command.
+  * `:environment`: pass environment variables for the command as a hash.
+
+* `scp_to_ex(from, to)`: Copies the file `from` to the location `to` on all nodes.
+
+* `shell_ex(cmd, opts = {})`: Execute a shell command on the default node.
+  `opts` keys:
+  * `:dry_run`: set to true to skip executing the actual command.
+  * `:environment`: pass environment variables for the command as a hash.
 
 ## Development
 
@@ -32,7 +60,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/puppetlabs/beaker-testmode_switcher/fork )
+1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
