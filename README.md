@@ -52,6 +52,11 @@ This experimental version supports only a minimal set of functionality from the 
   * `:dry_run`: set to true to skip executing the actual command.
   * `:environment`: pass environment variables for the command as a hash.
 
+Other helpful methods:
+
+* `Beaker::TestmodeSwitcher.mode`: Returns the currently configured test mode.
+* `Beaker::TestmodeSwitcher.runner`: Returns the currently configured runner.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
