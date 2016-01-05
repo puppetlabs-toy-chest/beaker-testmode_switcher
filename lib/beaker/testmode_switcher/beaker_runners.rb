@@ -21,11 +21,12 @@ module Beaker
 
       # execute a puppet resource command on the default host
       def resource(type, name, opts = {})
-        cmd = "resource"
+        cmd = ["resource"]
         cmd << "--debug" if opts[:debug]
         cmd << "--noop" if opts[:noop]
         cmd << "--trace" if opts[:trace]
-        cmd << "#{type} #{name}"
+        cmd << type
+        cmd << name
 
         if opts[:values]
           opts[:values].each do |k, v|
@@ -34,7 +35,7 @@ module Beaker
         end
 
         on(default,
-           puppet(cmd),
+           puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
            acceptable_exit_codes: (0...256)

@@ -27,11 +27,11 @@ module Beaker
       # it accepts the following keys: :dry_run, :environment, :trace, :noop, and :debug
       def execute_manifest(manifest, opts = {})
         puts "Applied manifest [#{manifest}]" if ENV['DEBUG_MANIFEST']
-        cmd = "bundle exec puppet apply -e #{manifest.delete("\n").shellescape} --detailed-exitcodes --modulepath spec/fixtures/modules --libdir lib"
-        cmd << " --debug" if opts[:debug]
-        cmd << " --noop" if opts[:noop]
-        cmd << " --trace" if opts[:trace]
-        use_local_shell(cmd, opts)
+        cmd = ["bundle exec puppet apply -e #{manifest.delete("\n").shellescape} --detailed-exitcodes --modulepath spec/fixtures/modules --libdir lib"]
+        cmd << "--debug" if opts[:debug]
+        cmd << "--noop" if opts[:noop]
+        cmd << "--trace" if opts[:trace]
+        use_local_shell(cmd.join(' '), opts)
       end
 
       # build and execute complex puppet resource commands locally
@@ -41,20 +41,21 @@ module Beaker
       # it accepts the following keys: :dry_run, :environment, :trace, :noop, and :debug
       # additionally opts[:values] can be set to a hash of resource values to pass on the command line
       def resource(type, name, opts = {})
-        cmd = "bundle exec puppet resource --modulepath spec/fixtures/modules --libdir lib"
-        cmd << " --debug" if opts[:debug]
-        cmd << " --noop" if opts[:noop]
-        cmd << " --trace" if opts[:trace]
-        cmd << " #{type.shellescape} #{name.shellescape}"
+        cmd = ["bundle exec puppet resource --modulepath spec/fixtures/modules --libdir lib"]
+        cmd << "--debug" if opts[:debug]
+        cmd << "--noop" if opts[:noop]
+        cmd << "--trace" if opts[:trace]
+        cmd << type.shellescape
+        cmd << name.shellescape
 
         if opts[:values]
           opts[:values].each do |k, v|
-            cmd << " #{k.shellescape}=#{v.shellescape}"
+            cmd << "#{k.shellescape}=#{v.shellescape}"
           end
         end
 
         # apply the command
-        use_local_shell(cmd, opts)
+        use_local_shell(cmd.join(' '), opts)
       end
 
       # copies the file locally
