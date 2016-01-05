@@ -1,14 +1,22 @@
-# disallow ridiculously long lines
+# increase the default metric limits to more realistic levels
 Metrics/LineLength:
   Max: 200
 
-# disallow ridiculously long functions
 Metrics/MethodLength:
   Max: 200
 
-# disallow ridiculously complex functions
 Metrics/AbcSize:
   Max: 100
+
+Metrics/ClassLength:
+  Max: 500
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Metrics/PerceivedComplexity:
+  Max: 20
+
 
 # Don't be picky about string quoting
 Style/PercentLiteralDelimiters:
@@ -16,3 +24,4 @@ Style/PercentLiteralDelimiters:
 
 Style/StringLiterals:
   Enabled: false
+
