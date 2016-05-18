@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'beaker/testmode_switcher/version'
 
 describe Beaker::TestmodeSwitcher do
   it 'has a version number' do

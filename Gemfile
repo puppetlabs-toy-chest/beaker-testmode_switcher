@@ -9,6 +9,6 @@ end
 group :development do
   gem 'guard'
   gem 'guard-rake'
-  gem 'guard-rspec'
+  gem 'guard-rspec' unless ENV['TEST_FRAMEWORK'] == 'beaker'
   gem 'pry-coolline'
 end

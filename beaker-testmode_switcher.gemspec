@@ -23,5 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3"
+  spec.add_development_dependency "rspec", "~> 3" unless ENV['TEST_FRAMEWORK'] == 'beaker'
+  spec.add_development_dependency "listen", "3.0.8"
 end

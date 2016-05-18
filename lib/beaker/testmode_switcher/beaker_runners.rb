@@ -1,12 +1,20 @@
 require 'beaker'
 require 'shellwords'
 require 'open3'
+require 'pry'
 
 module Beaker
   module TestmodeSwitcher
     # Re-used functionality for all beaker runners
     class BeakerRunnerBase
       include Beaker::DSL
+
+      attr_accessor :hosts, :logger
+
+      def initialize(hosts, logger)
+        self.hosts = hosts
+        self.logger = logger
+      end
 
       # create a remote file (using puppet apply) on the default host
       def create_remote_file_ex(file_path, file_content, options = {})
@@ -39,12 +47,12 @@ module Beaker
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
            acceptable_exit_codes: (0...256)
-          )
+          ) # rubocop:disable Metrics/AbcSize
       end
 
       # copy a file using beaker's scp_to to all hosts
       def scp_to_ex(from, to)
-        hosts.each do |host|
+        @hosts.each do |host|
           scp_to host, from, to
         end
       end
@@ -87,7 +95,7 @@ module Beaker
     # All functionality specific to running in 'apply' mode
     class BeakerApplyRunner < BeakerRunnerBase
       # execute the manifest by running puppet apply on the default node
-      def execute_manifest(manifest, opts = {})
+      def execute_manifest(manifest, opts={})
         # acceptable_exit_codes and expect_changes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
         apply_manifest(
