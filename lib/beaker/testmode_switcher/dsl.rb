@@ -7,7 +7,7 @@ module Beaker
       # pass through methods to the runner
       [:create_remote_file_ex, :scp_to_ex, :shell_ex, :resource, :execute_manifest].each do |name|
         define_method(name) do |*args|
-          Beaker::TestmodeSwitcher.runner.send(name, *args)
+          Beaker::TestmodeSwitcher.runner(hosts, logger).send(name, *args)
         end
       end
     end

@@ -8,14 +8,21 @@ module Beaker
     class BeakerRunnerBase
       include Beaker::DSL
 
+      attr_accessor :hosts, :logger
+
+      def initialize(hosts, logger)
+        self.hosts = hosts
+        self.logger = logger
+      end
+
       # create a remote file (using puppet apply) on the default host
       def create_remote_file_ex(file_path, file_content, options = {})
         mode = options[:mode] || '0644'
         user = options[:user] || 'root'
         group = options[:group] || 'root'
-        file_content.gsub!(/\\/, '\\')
-        file_content.gsub!(/'/, "\\'")
-        file_content.gsub!(/\n/, '\\n')
+        file_content.tr!(/\\/, '\\')
+        file_content.tr!(/'/, "\\'")
+        file_content.tr!(/\n/, '\\n')
         apply_manifest_on default, "file { '#{file_path}': ensure => present, content => '#{file_content}', mode => '#{mode}', user => '#{user}', group => '#{group}' }", catch_failures: true
       end
 
@@ -34,7 +41,7 @@ module Beaker
           end
         end
 
-        on(default,
+        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
            puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
@@ -44,7 +51,7 @@ module Beaker
 
       # copy a file using beaker's scp_to to all hosts
       def scp_to_ex(from, to)
-        hosts.each do |host|
+        @hosts.each do |host|
           scp_to host, from, to
         end
       end
@@ -75,7 +82,7 @@ module Beaker
 
         # acceptable_exit_codes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        on(default,
+        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
            puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
