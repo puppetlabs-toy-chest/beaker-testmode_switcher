@@ -26,6 +26,18 @@ The `BEAKER_TESTMODE` environment variable determines how the tests are run:
 * `apply`: VMs are provisioned as normal (determined by the nodeset) and tests are run with `puppet apply` on the specified node. This mode only requires a single VM and is great for running the tests in an isolated environment. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the manifests.
 * `agent`: VMs are provisioned as normal (determined by the nodeset). When running tests, the manifest is uploaded to the master and a full `puppet agent` run is kicked off on the specified node. This mode requires multiple VMs and a more involved provisioning step, but the tests run in a very production-like environment to ensure highest fidelity of the test results. The nodeset needs to contain one node with the 'master' role assigned. This will be the node to receive the manifest. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the puppet agent.
 
+## Acceptance tests
+
+Beaker and Beaker-rspec frameworks are supported. The environment variable `TEST_FRAMEWORK` MUST be set before the gem/bundle install.
+
+The `TEST_FRAMEWORK` environment variable determines the gem support for the test run:
+* `beaker` Beaker only support.
+* `beaker-rspec` Beaker-rspec support.
+
+The acceptance tests will immediately fail if the environment variable is not set.
+
+To run the tests `bundle exec rake`
+
 ## Reference
 
 This experimental version supports only a minimal set of functionality from the beaker DSL:
