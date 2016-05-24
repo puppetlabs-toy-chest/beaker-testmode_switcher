@@ -41,12 +41,15 @@ module Beaker
           end
         end
 
-        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
-           puppet(*cmd),
-           dry_run: opts[:dry_run],
-           environment: opts[:environment] || {},
-           acceptable_exit_codes: (0...256)
-          )
+        # Environment variables must be passed directly to puppet()
+        cmd << { 'ENV' => (opts[:environment] || {}) }
+        on(
+          default,
+          puppet(*cmd),
+          dry_run: opts[:dry_run],
+          environment: opts[:environment] || {},
+          acceptable_exit_codes: (0...256)
+        )
       end
 
       # copy a file using beaker's scp_to to all hosts
@@ -82,12 +85,15 @@ module Beaker
 
         # acceptable_exit_codes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
-           puppet(*cmd),
-           dry_run: opts[:dry_run],
-           environment: opts[:environment] || {},
-           acceptable_exit_codes: (0...256)
-          )
+        # Environment variables must be passed directly to puppet()
+        cmd << { 'ENV' => (opts[:environment] || {}) }
+        on(
+          default,
+          puppet(*cmd),
+          dry_run: opts[:dry_run],
+          environment: opts[:environment] || {},
+          acceptable_exit_codes: (0...256)
+        )
       end
     end
 
