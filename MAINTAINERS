@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "file_format": "This MAINTAINERS file format is described at http://pup.pt/maintainers",
+  "people": [
+    {
+      "github": "pmcmaw",
+      "email": "paula@puppet.com",
+      "name": "Paula McMaw"
+    },
+    {
+      "github": "HelenCampbell",
+      "email": "helen@puppet.com",
+      "name": "Helen Campbell"
+    }
+  ]
+}
