@@ -41,7 +41,7 @@ module Beaker
           end
         end
 
-        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
+        on(default,
            puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
@@ -82,7 +82,7 @@ module Beaker
 
         # acceptable_exit_codes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        on(default, # rubocop:disable Style/MultilineMethodCallBraceLayout
+        on(default,
            puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
