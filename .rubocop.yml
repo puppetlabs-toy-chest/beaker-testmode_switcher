@@ -1,4 +1,7 @@
 # increase the default metric limits to more realistic levels
+Metrics/BlockLength:
+  Max: 200
+
 Metrics/LineLength:
   Max: 200
 
@@ -25,3 +28,11 @@ Style/PercentLiteralDelimiters:
 Style/StringLiterals:
   Enabled: false
 
+Style/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
