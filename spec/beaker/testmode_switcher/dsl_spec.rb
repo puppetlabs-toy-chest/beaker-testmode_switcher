@@ -38,6 +38,13 @@ describe Beaker::TestmodeSwitcher::DSL do
     end
   end
 
+  describe '#execute_manifest_on' do
+    it 'is callable' do
+      is_expected.to receive(:execute_manifest_on)
+      execute_manifest_on(hosts, 'manifest', {})
+    end
+  end
+
   describe '#runner' do
     it_behaves_like "a runner"
   end

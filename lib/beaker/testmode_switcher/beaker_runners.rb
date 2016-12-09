@@ -70,6 +70,12 @@ module Beaker
       # upload the manifest to the master and inject it into the site.pp
       # then run a puppet agent on the default host
       def execute_manifest(manifest, opts = {})
+        execute_manifest_on(default, manifest, opts)
+      end
+
+      # upload the manifest to the master and inject it into the site.pp
+      # then run a puppet agent on all hosts
+      def execute_manifest_on(hosts, manifest, opts = {})
         environment_base_path = on(master, puppet('config', 'print', 'environmentpath')).stdout.rstrip
         prod_env_site_pp_path = File.join(environment_base_path, 'production', 'manifests', 'site.pp')
         site_pp = create_site_pp(master, manifest: manifest)
@@ -82,12 +88,11 @@ module Beaker
 
         # acceptable_exit_codes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        on(default,
+        on(hosts,
            puppet(*cmd),
            dry_run: opts[:dry_run],
            environment: opts[:environment] || {},
-           acceptable_exit_codes: (0...256)
-          )
+           acceptable_exit_codes: (0...256))
       end
     end
 
