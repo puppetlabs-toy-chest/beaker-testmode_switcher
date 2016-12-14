@@ -36,3 +36,20 @@ Style/FrozenStringLiteralComment:
 
 Style/SafeNavigation:
   Enabled: false
+
+# Disabling unrealistic rubocop RSpec cops
+RSpec/HookArgument:
+   Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/DescribedClass:
+  Enabled: false
+
+# We want to call gem files multiple times if they have a ruby version dependency
+Bundler/DuplicatedGem:
+  Enabled: false
