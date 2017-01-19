@@ -6,7 +6,7 @@ require 'beaker/testmode_switcher/version'
 Gem::Specification.new do |spec|
   spec.name          = "beaker-testmode_switcher"
   spec.version       = Beaker::TestmodeSwitcher::VERSION
-  spec.authors       = ["Puppet Labs", "David Schmitt", "Gareth Rushgrove", "Greg Hardy"]
+  spec.authors       = ["Puppet Labs", "David Schmitt", "Gareth Rushgrove", "Greg Hardy", "Paula McMaw"]
   spec.email         = ["modules-team@puppetlabs.com"]
 
   spec.summary       = "Let's you run your puppet module tests in master/agent, apply or local mode."

@@ -53,3 +53,7 @@ RSpec/DescribedClass:
 # We want to call gem files multiple times if they have a ruby version dependency
 Bundler/DuplicatedGem:
   Enabled: false
+
+# When there are dependencies we have duplicate gems so they cant be ordered
+Bundler/OrderedGems:
+  Enabled: false
