@@ -1,11 +1,12 @@
 require 'beaker'
 require 'shellwords'
 require 'open3'
+require_relative 'runner_base'
 
 module Beaker
   module TestmodeSwitcher
     # Re-used functionality for all beaker runners
-    class BeakerRunnerBase
+    class BeakerRunnerBase < RunnerBase
       include Beaker::DSL
 
       attr_accessor :hosts, :logger
@@ -81,18 +82,21 @@ module Beaker
         site_pp = create_site_pp(master, manifest: manifest)
         inject_site_pp(master, prod_env_site_pp_path, site_pp)
 
-        cmd = ['agent', '--test', '--environment production']
+        cmd = ['agent', '--test', '--environment production', '--detailed-exitcodes']
         cmd << "--debug" if opts[:debug]
         cmd << "--noop" if opts[:noop]
         cmd << "--trace" if opts[:trace]
 
         # acceptable_exit_codes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        on(hosts,
-           puppet(*cmd),
-           dry_run: opts[:dry_run],
-           environment: opts[:environment] || {},
-           acceptable_exit_codes: (0...256))
+        res = on(hosts,
+                 puppet(*cmd),
+                 dry_run: opts[:dry_run],
+                 environment: opts[:environment] || {},
+                 acceptable_exit_codes: (0...256))
+
+        handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        res
       end
     end
 
@@ -102,16 +106,18 @@ module Beaker
       def execute_manifest(manifest, opts = {})
         # acceptable_exit_codes and expect_changes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        apply_manifest(
+        res = apply_manifest(
           manifest,
-          expect_changes: true,
           debug: opts[:debug],
           dry_run: opts[:dry_run],
           environment: opts[:environment] || {},
           noop: opts[:noop],
           trace: opts[:trace],
-          acceptable_exit_codes: (0...256)
-        )
+          expect_failures: true,
+          acceptable_exit_codes: (0...256))
+
+        handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        res
       end
     end
   end
