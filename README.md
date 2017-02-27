@@ -59,6 +59,10 @@ This experimental version supports only a minimal set of functionality from the 
   * `:values`: pass a hash of key/value pairs which is passed on the commandline to `puppet resource` to influence the specified resource.
   * `:dry_run`: set to true to skip executing the actual command.
   * `:environment`: pass environment variables for the command as a hash.
+  * `:catch_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there was a failure during its execution.
+  * `:catch_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were changes or failures during its execution.
+  * `:expect_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were no resource changes during its execution.
+  * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
 
 * `scp_to_ex(from, to)`: Copies the file `from` to the location `to` on all nodes.
 

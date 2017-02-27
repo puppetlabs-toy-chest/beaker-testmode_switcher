@@ -1,10 +1,11 @@
 require 'shellwords'
 require 'open3'
+require_relative 'runner_base'
 
 module Beaker
   module TestmodeSwitcher
     # All functionality specific to running in 'local' mode
-    class LocalRunner
+    class LocalRunner < RunnerBase
       # creates the file on the local machine and adjusts permissions
       # the opts hash allows the following keys: :mode, :user, :group
       def create_remote_file_ex(file_path, file_content, opts = {})
@@ -31,7 +32,11 @@ module Beaker
         cmd << "--debug" if opts[:debug]
         cmd << "--noop" if opts[:noop]
         cmd << "--trace" if opts[:trace]
-        use_local_shell(cmd.join(' '), opts)
+
+        res = use_local_shell(cmd.join(' '), opts)
+        handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+
+        res
       end
 
       # build and execute complex puppet resource commands locally
