@@ -45,13 +45,26 @@ This experimental version supports only a minimal set of functionality from the 
 * `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:user`, and `:group` to specify the permissions, owner, and group respectively.
 
 * `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This will only work when `BEAKER_TESTMODE`, is set to `agent` and it will run a `puppet agent` run.
+  
   `opts` keys:
   * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
   * `:dry_run`: set to true to skip executing the actual command.
   * `:environment`: pass environment variables for the command as a hash.
+  * `:catch_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there was a failure during its execution.
+  * `:catch_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were changes or failures during its execution.
+  * `:expect_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were no resource changes during its execution.
+  * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
 
-* `execute_manifest(manifest, opts = {})`: Execute the manifest on the default node. Depending on the `BEAKER_TESTMODE` environment variable, this may use `puppet agent` or `puppet apply`.
-  `opts` This makes use of `execute_manifest_on(hosts, manifest, opts = {})`.
+* `execute_manifest(manifest, opts = {})`: Execute the manifest on the default node. Depending on the `BEAKER_TESTMODE` environment variable, this may use `puppet agent` or `puppet apply`. Calls execute_manifest_on when `BEAKER_TESTMODE`=`agent`
+  
+  `opts` keys:
+  * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
+  * `:dry_run`: set to true to skip executing the actual command.
+  * `:environment`: pass environment variables for the command as a hash.
+  * `:catch_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there was a failure during its execution.
+  * `:catch_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were changes or failures during its execution.
+  * `:expect_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were no resource changes during its execution.
+  * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
 
 * `resource(type, name, opts = {})`: Runs `puppet resource` with the specified `type` and `name` arguments.
   `opts` keys:
@@ -59,10 +72,6 @@ This experimental version supports only a minimal set of functionality from the 
   * `:values`: pass a hash of key/value pairs which is passed on the commandline to `puppet resource` to influence the specified resource.
   * `:dry_run`: set to true to skip executing the actual command.
   * `:environment`: pass environment variables for the command as a hash.
-  * `:catch_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there was a failure during its execution.
-  * `:catch_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were changes or failures during its execution.
-  * `:expect_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were no resource changes during its execution.
-  * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
 
 * `scp_to_ex(from, to)`: Copies the file `from` to the location `to` on all nodes.
 
