@@ -4,7 +4,7 @@ def beaker_command
   cmd_parts = []
   cmd_parts << "beaker"
   cmd_parts << "--debug"
-  cmd_parts << "--test spec/test"
+  cmd_parts << "--tests spec/test"
   cmd_parts << "--load-path lib"
   cmd_parts.flatten.join(" ")
 end
@@ -24,13 +24,14 @@ task :beaker do
   abort "Beaker test failed" unless system(beaker_command) == true
 end
 
-task :rubocop do
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new(:rubocop) do |task|
+  # These make the rubocop experience maybe slightly less terrible
+  task.options = ['-D', '-S', '-E']
 end
 
 begin
-  task default: [:spec, :rubocop]
+  task default: %i[spec rubocop]
 rescue LoadError => error
   raise "LoadError for default rake target. [#{error}] "
 end

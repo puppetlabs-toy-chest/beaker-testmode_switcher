@@ -117,7 +117,12 @@ module Beaker
             ready[0].each do |f|
               fileno = f.fileno
               begin
-                data = f.read_nonblock(1024)
+                begin
+                  data = f.read_nonblock(1024)
+                rescue IO::WaitReadable, Errno::EINTR
+                  IO.select([f])
+                  retry
+                end
                 until data.empty?
                   $stdout.write(data)
 
@@ -138,10 +143,14 @@ module Beaker
                     data = f.read_nonblock(1024)
                   rescue IO::EAGAINWaitReadable
                     data = ""
+                  rescue IO::WaitReadable, Errno::EINTR
+                    IO.select([f])
+                    retry
                   end
                 end
-              rescue EOFError # rubocop:disable Lint/HandleExceptions: expected exception
+              rescue EOFError, Errno::EBADF # rubocop:disable Lint/HandleExceptions: expected exception
                 # pass on EOF
+                # Also pass on Errno::EBADF (Bad File Descriptor) as it is thrown for Ruby 2.1.9 on Windows
               end
             end
           end

@@ -9,6 +9,7 @@ group :test do
   gem 'rake', '~> 10.0'
   gem 'rspec', '~> 3' unless ENV['TEST_FRAMEWORK'] && ENV['TEST_FRAMEWORK'] == 'beaker' # Don't install rpsec if the module is in beaker only mode
   gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :development do

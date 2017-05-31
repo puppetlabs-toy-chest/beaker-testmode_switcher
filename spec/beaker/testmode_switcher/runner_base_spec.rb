@@ -41,7 +41,7 @@ describe Beaker::TestmodeSwitcher::RunnerBase do
     end
 
     it 'not throw UnacceptableExitCodeError when acceptable exit code given' do
-      expect { subject.handle_puppet_run_returned_exit_code([0, 2], 2) }.to_not raise_error(Beaker::TestmodeSwitcher::UnacceptableExitCodeError)
+      expect { subject.handle_puppet_run_returned_exit_code([0, 2], 2) }.not_to raise_error(Beaker::TestmodeSwitcher::UnacceptableExitCodeError)
     end
   end
 end
