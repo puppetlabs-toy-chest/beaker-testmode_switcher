@@ -31,7 +31,7 @@ RuboCop::RakeTask.new(:rubocop) do |task|
 end
 
 begin
-  task default: [:spec, :rubocop]
+  task default: %i[spec rubocop]
 rescue LoadError => error
   raise "LoadError for default rake target. [#{error}] "
 end
