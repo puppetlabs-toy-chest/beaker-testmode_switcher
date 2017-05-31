@@ -148,8 +148,9 @@ module Beaker
                     retry
                   end
                 end
-              rescue EOFError # rubocop:disable Lint/HandleExceptions: expected exception
+              rescue EOFError, Errno::EBADF # rubocop:disable Lint/HandleExceptions: expected exception
                 # pass on EOF
+                # Also pass on Errno::EBADF (Bad File Descriptor) as it is thrown for Ruby 2.1.9 on Windows
               end
             end
           end
