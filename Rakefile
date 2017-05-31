@@ -24,9 +24,10 @@ task :beaker do
   abort "Beaker test failed" unless system(beaker_command) == true
 end
 
-task :rubocop do
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new(:rubocop) do |task|
+  # These make the rubocop experience maybe slightly less terrible
+  task.options = ['-D', '-S', '-E']
 end
 
 begin
