@@ -4,7 +4,7 @@ def beaker_command
   cmd_parts = []
   cmd_parts << "beaker"
   cmd_parts << "--debug"
-  cmd_parts << "--test spec/test"
+  cmd_parts << "--tests spec/test"
   cmd_parts << "--load-path lib"
   cmd_parts.flatten.join(" ")
 end
