@@ -1,12 +1,12 @@
 # Beaker::TestmodeSwitcher
 
-When testing modules with beaker, you need to choose up-front whether to drive the tests using `puppet apply` or a master/agent setup. While choosing the apply approach is tempting due to the reduced resource usage, everyone is running master/agent setups, and those have subtle differences to `puppet apply` that might trip up your code. To solve this dilemma, use this gem to choose the test mode at runtime!
+When testing modules and other Puppet software with beaker, you need to choose up-front whether to drive the tests using `puppet apply` directly on an agent VM; or using a master/agent setup; or by running the code directly on your workstation. While choosing the apply approach is tempting due to the reduced resource usage, most Puppet deployments are running master/agent setups, and those have subtle differences to `puppet apply` that might trip up your code. To solve this dilemma, use this gem to choose the test mode at runtime!
 
-Beaker::TestmodeSwitcher supports running tests in master/agent mode, or using `puppet apply` or locally without any setup.
+Beaker::TestmodeSwitcher supports running tests in master/agent mode, or using `puppet apply` on an agent host, or locally without any setup.
 
 ## Usage
 
-Set up you module for beaker testing as usual. Additionally add
+Set up your module for beaker testing as usual. Additionally add
 
 ```ruby
 gem 'beaker-testmode_switcher'
@@ -22,9 +22,9 @@ to your `spec/spec_helper_acceptance.rb` to enable the DSL extensions. Instead o
 
 The `BEAKER_TESTMODE` environment variable determines how the tests are run:
 
-* `local`: No VMs are provisioned and tests are run with `puppet apply` using the context of your test runner. This mode uses the least resources and is great for development, but may require running the tests as root and could trash the system.
-* `apply`: VMs are provisioned as normal (determined by the nodeset) and tests are run with `puppet apply` on the specified node. This mode only requires a single VM and is great for running the tests in an isolated environment. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the manifests.
-* `agent`: VMs are provisioned as normal (determined by the nodeset). When running tests, the manifest is uploaded to the master and a full `puppet agent` run is kicked off on the specified node. This mode requires multiple VMs and a more involved provisioning step, but the tests run in a very production-like environment to ensure highest fidelity of the test results. The nodeset needs to contain one node with the 'master' role assigned. This will be the node to receive the manifest. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the puppet agent.
+* `local`: No VMs are provisioned and tests are run using the context of your test runner. This mode is great for development, but may require running the tests as root and may cause unwanted system changes to your workstation.
+* `apply`: VMs are provisioned as normal (determined by the nodeset) and tests of Puppet manifests are run with `puppet apply` on the specified node. This mode only requires a single VM and is great for running the tests in an isolated environment. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the manifests.
+* `agent`: VMs are provisioned as normal (determined by the nodeset). When running tests with Puppet manifests, the manifest is uploaded to the master and a `puppet agent` run is kicked off on the specified node. This mode requires multiple VMs and a more involved provisioning step, but the tests run in a more production-like environment to ensure highest fidelity of the test results. The nodeset needs to contain one node with the 'master' role assigned. This will be the node to receive the manifest. When the nodeset has more than one node, exactly one has to have the 'default' role assigned. This will be the node to execute the puppet agent.
 
 ## Acceptance tests
 
