@@ -1,3 +1,7 @@
+# 2017-06-02 Version 0.2.1
+### Summary
+Fixes for shell_ex when running on Windows; and a minor README update.
+
 # 2017-03-03 Version 0.2.0
 ### Summary
 Make use of catch_changes, catch_failures, expect_changes and expect_failures. This makes beaker-testmode_switcher easier to integrate into modules.
