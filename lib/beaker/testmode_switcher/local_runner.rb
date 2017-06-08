@@ -19,7 +19,7 @@ module Beaker
         if commands.empty?
           success_result
         else
-          use_local_shell(commands.join(' && '), opts)
+          use_local_shell(commands.join(' && '), {})
         end
       end
 
@@ -70,8 +70,6 @@ module Beaker
       end
 
       # run a command through a local shell
-      # Pass options to alter execution through `opts`:
-      # * `:environment`: default: `{}`; these will be treated as extra environment variables that should be set before running the command
       def shell_ex(cmd, opts = {})
         use_local_shell(cmd, opts)
       end
@@ -87,24 +85,24 @@ module Beaker
       end
 
       # fork/exec a process and collect its output
-      def use_local_shell(cmd, opts)
+      def use_local_shell(cmd, opts = {})
         if opts[:dry_run]
           puts "Would have run '#{cmd}'"
           success_result
         else
-          capture_command(cmd, opts[:environment] || {})
+          capture_command(cmd, opts)
         end
       end
 
       # runs a command and captures its output in a Beaker::Result
-      def capture_command(cmd, environment)
+      def capture_command(cmd, opts = {})
         blocks = {
           combined: [],
           out: [],
           err: []
         }
         exit_code = -1
-        Open3.popen3(environment, cmd) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(opts[:environment] || {}, cmd, opts) do |stdin, stdout, stderr, wait_thr|
           # TODO: pass through $stdin/terminal to subprocess to allow interaction - e.g. pry - the subprocess
           stdin.close_write
 
