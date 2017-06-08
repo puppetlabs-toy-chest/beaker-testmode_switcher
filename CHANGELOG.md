@@ -1,3 +1,13 @@
+# 2017-06-08 Version 0.3.0
+### Summary
+Adds a new parameter for shell_ex; and improvements for local test running.
+
+### Features
+- Implements `:chdir` option to `shell_ex`.
+
+### BugFixes
+- Makes `my_hosts` and `logger` global methods optional.
+
 # 2017-06-02 Version 0.2.1
 ### Summary
 Fixes for shell_ex when running on Windows; and a minor README update.
