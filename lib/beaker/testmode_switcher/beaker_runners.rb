@@ -50,10 +50,10 @@ module Beaker
           )
       end
 
-      # copy a file using beaker's scp_to to all hosts
+      # copy a file using beaker's rsync_to to all hosts
       def scp_to_ex(from, to)
         @hosts.each do |host|
-          scp_to host, from, to
+          rsync_to host, from, to
         end
       end
 
