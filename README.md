@@ -79,6 +79,8 @@ This experimental version supports only a minimal set of functionality from the 
   `opts` keys:
   * `:dry_run`: set to true to skip executing the actual command.
   * `:environment`: pass environment variables for the command as a hash.
+  * `:chdir`: the directory in which to run the command.
+  * See `Process.spawn()`'s `options` argument for more attributes.
 
 Other helpful methods:
 
