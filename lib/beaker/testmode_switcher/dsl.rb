@@ -7,7 +7,10 @@ module Beaker
       # pass through methods to the runner
       %i[create_remote_file_ex scp_to_ex shell_ex resource execute_manifest execute_manifest_on].each do |name|
         define_method(name) do |*args|
-          Beaker::TestmodeSwitcher.runner(hosts, logger).send(name, *args)
+          # `hosts`, and `logger` are beaker DSL accessors in the global scope. Do not fail here, if they're not available.
+          my_hosts = (hosts if respond_to? :hosts)
+          my_logger = (logger if respond_to? :logger)
+          Beaker::TestmodeSwitcher.runner(my_hosts, my_logger).send(name, *args)
         end
       end
     end
