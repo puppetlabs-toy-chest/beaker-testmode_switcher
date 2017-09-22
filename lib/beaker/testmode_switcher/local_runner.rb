@@ -28,12 +28,14 @@ module Beaker
       # it accepts the following keys: :dry_run, :environment, :trace, :noop, and :debug
       def execute_manifest(manifest, opts = {})
         puts "Applied manifest [#{manifest}]" if ENV['DEBUG_MANIFEST']
-        cmd = ["bundle exec puppet apply -e #{manifest.delete("\n").shellescape} --detailed-exitcodes --modulepath spec/fixtures/modules --libdir lib"]
+        cmd = ["bundle exec puppet apply -e #{manifest.shellescape} --detailed-exitcodes --modulepath spec/fixtures/modules --libdir lib"]
         cmd << "--debug" if opts[:debug]
         cmd << "--noop" if opts[:noop]
         cmd << "--trace" if opts[:trace]
 
-        res = use_local_shell(cmd.join(' '), opts)
+        raise ArgumentError, 'Can\'t handle environment key' if opts.key? :environment
+
+        res = use_local_shell(cmd.join(' '))
         handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
 
         res
@@ -52,6 +54,10 @@ module Beaker
         cmd << "--trace" if opts[:trace]
         cmd << type.shellescape
         cmd << name.shellescape
+
+        opts.delete(:debug)
+        opts.delete(:noop)
+        opts.delete(:trace)
 
         if opts[:values]
           opts[:values].each do |k, v|
