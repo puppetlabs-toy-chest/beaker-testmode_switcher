@@ -21,9 +21,9 @@ module Beaker
         mode = options[:mode] || '0644'
         user = options[:user] || 'root'
         group = options[:group] || 'root'
-        file_content.tr!(/\\/, '\\')
-        file_content.tr!(/'/, "\\'")
-        file_content.tr!(/\n/, '\\n')
+        file_content.gsub!(/\\/, '\\\\')
+        file_content.gsub!(/'/, "\\'")
+        file_content.gsub!(/\n/, '\\n')
         apply_manifest_on default, "file { '#{file_path}': ensure => present, content => '#{file_content}', mode => '#{mode}', user => '#{user}', group => '#{group}' }", catch_failures: true
       end
 
