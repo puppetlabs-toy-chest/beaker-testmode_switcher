@@ -42,7 +42,7 @@ To run the tests `bundle exec rake`
 
 This experimental version supports only a minimal set of functionality from the beaker DSL:
 
-* `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:user`, and `:group` to specify the permissions, owner, and group respectively.
+* `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:owner`, and `:group` to specify the permissions, owner, and group respectively.
 
 * `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This will only work when `BEAKER_TESTMODE`, is set to `agent` and it will run a `puppet agent` run.
   

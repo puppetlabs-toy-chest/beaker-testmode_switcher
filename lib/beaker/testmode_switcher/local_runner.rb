@@ -14,7 +14,7 @@ module Beaker
         file_path_escaped = file_path.shellescape
         commands = []
         commands << "chmod #{opts[:mode].shellescape} #{file_path_escaped}" if opts[:mode]
-        commands << "chown #{opts[:user].shellescape} #{file_path_escaped}" if opts[:user]
+        commands << "chown #{opts[:owner].shellescape} #{file_path_escaped}" if opts[:owner]
         commands << "chgrp #{opts[:group].shellescape} #{file_path_escaped}" if opts[:group]
         if commands.empty?
           success_result
