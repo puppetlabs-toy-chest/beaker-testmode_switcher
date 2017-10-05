@@ -22,9 +22,9 @@ module Beaker
         owner = options[:owner] || 'root'
         group = options[:group] || 'root'
         file_content.gsub!(/\\/, '\\\\')
-        file_content.gsub!(/'/, "\\'")
-        file_content.gsub!(/\n/, '\\n')
-        apply_manifest_on default, "file { '#{file_path}': ensure => present, content => '#{file_content}', mode => '#{mode}', owner => '#{owner}', group => '#{group}' }", catch_failures: true
+        file_content.gsub!(/"/, '\\"')
+        file_content.gsub!(/\n/, '\n')
+        apply_manifest_on default, "file { '#{file_path}': ensure => present, content => \"#{file_content}\", mode => '#{mode}', owner => '#{owner}', group => '#{group}' }", catch_failures: true
       end
 
       # execute a puppet resource command on the default host
