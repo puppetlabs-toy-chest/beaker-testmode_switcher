@@ -84,6 +84,7 @@ module Beaker
         inject_site_pp(master, prod_env_site_pp_path, site_pp)
 
         cmd = ['agent', '--test', '--environment production', '--detailed-exitcodes']
+        cmd << "--server #{opts[:server]}" if opts[:server]
         cmd << "--debug" if opts[:debug]
         cmd << "--noop" if opts[:noop]
         cmd << "--trace" if opts[:trace]
