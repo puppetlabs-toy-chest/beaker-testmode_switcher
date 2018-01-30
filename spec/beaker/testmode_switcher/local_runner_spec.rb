@@ -31,7 +31,7 @@ describe Beaker::TestmodeSwitcher::LocalRunner do
 
     it 'creates a file with mode' do
       subject.create_remote_file_ex(@target, "content\n", mode: '0700')
-      mode = format("%o", File.stat(@target).mode)
+      mode = format('%o', File.stat(@target).mode)
       expect(mode).to eq "100700"
     end
   end
