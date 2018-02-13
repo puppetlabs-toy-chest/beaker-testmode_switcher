@@ -47,5 +47,6 @@ describe Beaker::TestmodeSwitcher::DSL do
 
   describe '#runner' do
     it_behaves_like "a runner"
+    it_behaves_like "a fully implemented runner"
   end
 end

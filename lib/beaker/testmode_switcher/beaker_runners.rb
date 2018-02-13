@@ -105,9 +105,16 @@ module Beaker
     class BeakerApplyRunner < BeakerRunnerBase
       # execute the manifest by running puppet apply on the default node
       def execute_manifest(manifest, opts = {})
+        execute_manifest_on(default, manifest, opts)
+      end
+
+      # execute the manifest by running puppet apply on all the hosts
+      def execute_manifest_on(hosts, manifest, opts = {})
         # acceptable_exit_codes and expect_changes are passed because we want detailed-exit-codes but want to
         # make our own assertions about the responses
-        res = apply_manifest(
+
+        res = apply_manifest_on(
+          hosts,
           manifest,
           debug: opts[:debug],
           dry_run: opts[:dry_run],
