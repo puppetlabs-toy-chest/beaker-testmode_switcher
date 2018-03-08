@@ -44,7 +44,7 @@ This experimental version supports only a minimal set of functionality from the 
 
 * `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:owner`, and `:group` to specify the permissions, owner, and group respectively.
 
-* `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This will only work when `BEAKER_TESTMODE` is set to `agent` or `apply`, and is not yet supported for `local`.
+* `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This is supported for all variants of `BEAKER_TESTMODE`, but the `hosts` parameter is ignored when set to `local`.
 
   `opts` keys:
   * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.

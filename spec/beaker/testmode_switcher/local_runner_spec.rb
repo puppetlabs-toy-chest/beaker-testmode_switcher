@@ -5,6 +5,8 @@ describe Beaker::TestmodeSwitcher::LocalRunner do
   let(:subject) { described_class.new }
 
   it_behaves_like "a runner"
+  # when run in isolation, the DSL module may not be mixed in
+  it_behaves_like "a fully implemented runner" if defined?(Beaker::TestmodeSwitcher::DSL)
 
   describe '#create_remote_file_ex' do
     before :each do
