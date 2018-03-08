@@ -44,8 +44,8 @@ This experimental version supports only a minimal set of functionality from the 
 
 * `create_remote_file_ex(file_path, file_content, opts = {})`: Creates a file at `file_path` with the content specified in `file_content` on the default node. `opts` can have the keys `:mode`, `:owner`, and `:group` to specify the permissions, owner, and group respectively.
 
-* `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This will only work when `BEAKER_TESTMODE`, is set to `agent` and it will run a `puppet agent` run.
-  
+* `execute_manifest_on(hosts, manifest, opts = {})`: Execute the manifest on all nodes. This will only work when `BEAKER_TESTMODE` is set to `agent` or `apply`, and is not yet supported for `local`.
+
   `opts` keys:
   * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
   * `:dry_run`: set to true to skip executing the actual command.
@@ -56,7 +56,7 @@ This experimental version supports only a minimal set of functionality from the 
   * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
 
 * `execute_manifest(manifest, opts = {})`: Execute the manifest on the default node. Depending on the `BEAKER_TESTMODE` environment variable, this may use `puppet agent` or `puppet apply`. Calls execute_manifest_on when `BEAKER_TESTMODE`=`agent`
-  
+
   `opts` keys:
   * `:debug`, `:trace`, `:noop`: set to true to enable the puppet option of the same name.
   * `:dry_run`: set to true to skip executing the actual command.
@@ -91,7 +91,7 @@ Other helpful methods:
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. 
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ### Releasing
 
