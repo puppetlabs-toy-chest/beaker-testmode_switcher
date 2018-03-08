@@ -1,3 +1,15 @@
+# 2018-03-07 Version 0.4.0
+### Summary
+Adds the ability for execute_manifest_on to work in both agent and apply; improvements for create_remote_file_ex.
+
+### Features
+- Adds support for `execute_manifest_on` with `BEAKER_TESTMODE` set to `apply`
+
+### BugFixes
+- Fixes `create_remote_file_ex` so that opts accepts `:owner` instead of `:user`
+- Improves content handling for `create_remote_file_ex`
+- Minor fixes to option handling
+
 # 2017-06-08 Version 0.3.0
 ### Summary
 Adds a new parameter for shell_ex; and improvements for local test running.
