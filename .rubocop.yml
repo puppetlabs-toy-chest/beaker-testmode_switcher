@@ -22,7 +22,11 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 20
 
+Style/FormatStringToken:
+  Enabled: False
 
+Style/MixinUsage:
+  Enabled: False
 # Don't be picky about string quoting
 Style/PercentLiteralDelimiters:
   Enabled: false

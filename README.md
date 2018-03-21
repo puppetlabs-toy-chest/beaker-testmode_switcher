@@ -6,13 +6,19 @@ Beaker::TestmodeSwitcher supports running tests in master/agent mode, or using `
 
 ## Usage
 
+### Update Gemfile
+
 Set up your module for beaker testing as usual. Additionally add
 
 ```ruby
 gem 'beaker-testmode_switcher'
 ```
 
-to the `:system_tests` group in your module's Gemfile. Add
+to the `:system_tests` group in your module's Gemfile.
+
+### Update spec_helper_acceptance.rb
+
+Add
 
 ```ruby
 require 'beaker/testmode_switcher/dsl'
@@ -54,6 +60,7 @@ This experimental version supports only a minimal set of functionality from the 
   * `:catch_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were changes or failures during its execution.
   * `:expect_changes` enables detailed exit codes and causes a test failure if the puppet run indicates that there were no resource changes during its execution.
   * `:expect_failures` enables detailed exit codes and causes a test failure if the puppet run indicates there were no failure during its execution.
+  * `:server` adds an `optional`  parameter to connect to a different puppet server.
 
 * `execute_manifest(manifest, opts = {})`: Execute the manifest on the default node. Depending on the `BEAKER_TESTMODE` environment variable, this may use `puppet agent` or `puppet apply`. Calls execute_manifest_on when `BEAKER_TESTMODE`=`agent`
 
