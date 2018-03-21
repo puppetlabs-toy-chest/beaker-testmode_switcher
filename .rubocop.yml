@@ -59,3 +59,7 @@ Bundler/DuplicatedGem:
 # When there are dependencies we have duplicate gems so they cant be ordered
 Bundler/OrderedGems:
   Enabled: false
+
+# Useless detection on Windows
+Layout/EndOfLine:
+  Enabled: false

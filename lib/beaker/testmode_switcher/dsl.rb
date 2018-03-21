@@ -17,4 +17,4 @@ module Beaker
   end
 end
 
-include Beaker::TestmodeSwitcher::DSL
+include Beaker::TestmodeSwitcher::DSL # rubocop:disable Style/MixinUsage  This usage is expected
