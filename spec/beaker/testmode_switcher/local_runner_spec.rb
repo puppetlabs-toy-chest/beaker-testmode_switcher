@@ -29,9 +29,9 @@ describe Beaker::TestmodeSwitcher::LocalRunner do
       expect(File.read(@target)).to eq "content\n"
     end
 
-    it 'creates a file with mode' do
+    it 'creates a file with mode', unless: windows_platform? do
       subject.create_remote_file_ex(@target, "content\n", mode: '0700')
-      mode = format("%o", File.stat(@target).mode)
+      mode = format("%o", File.stat(@target).mode) # rubocop:disable Style/FormatStringToken  Safe conversion in this instance
       expect(mode).to eq "100700"
     end
   end

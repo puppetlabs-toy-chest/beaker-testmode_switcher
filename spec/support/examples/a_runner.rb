@@ -10,7 +10,7 @@ shared_examples 'a fully implemented runner' do
   methods.each do |name|
     it "should implement #{name} instead of mixing in Beaker::TestmodeSwitcher::DSL" do
       method = subject.class.instance_method(name)
-      expect(method.owner).to_not be(Beaker::TestmodeSwitcher::DSL)
+      expect(method.owner).not_to be(Beaker::TestmodeSwitcher::DSL)
     end
   end
 end

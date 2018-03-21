@@ -23,12 +23,17 @@ module Beaker
 
         # If no option supplied, return all exit codes, as an array,
         # as acceptable so beaker returns a detailed output
-        (0...256)
+        0...256
       end
 
       def handle_puppet_run_returned_exit_code(acceptable_exit_codes, returned_exit_code)
         return if acceptable_exit_codes.include?(returned_exit_code)
-        raise UnacceptableExitCodeError, "Unacceptable exit code returned: #{returned_exit_code}. Acceptable code(s): #{acceptable_exit_codes.join(', ')}"
+        acceptable_exit_codes_string = if acceptable_exit_codes.is_a?(Array)
+                                         acceptable_exit_codes.join(', ')
+                                       else
+                                         acceptable_exit_codes_string.to_s
+                                       end
+        raise UnacceptableExitCodeError, "Unacceptable exit code returned: #{returned_exit_code}. Acceptable code(s): #{acceptable_exit_codes_string}"
       end
     end
   end
