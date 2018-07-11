@@ -13,24 +13,28 @@ describe Beaker::TestmodeSwitcher::DSL do
       create_remote_file_ex('/tmp/foo', 'content', {})
     end
   end
+
   describe '#scp_to_ex' do
     it 'is callable' do
       is_expected.to receive(:scp_to_ex)
       scp_to_ex('/tmp/from', '/tmp/to')
     end
   end
+
   describe '#shell_ex' do
     it 'is callable' do
       is_expected.to receive(:shell_ex)
       shell_ex('cmd', {})
     end
   end
+
   describe '#resource' do
     it 'is callable' do
       is_expected.to receive(:resource)
       resource('type', 'name', {})
     end
   end
+
   describe '#execute_manifest' do
     it 'is callable' do
       is_expected.to receive(:execute_manifest)
