@@ -1,3 +1,10 @@
+# 2018-17-07 Version 0.4.1
+#### Summary
+This release corrects a bug that doesn't return results correctly when multiple hosts are specified.
+
+### BugFixes
+- execute_manifest_on doesn't return results correctly when multiple hosts are specified.
+
 # 2018-03-07 Version 0.4.0
 ### Summary
 Adds the ability for execute_manifest_on to work in both agent and apply; improvements for create_remote_file_ex.
