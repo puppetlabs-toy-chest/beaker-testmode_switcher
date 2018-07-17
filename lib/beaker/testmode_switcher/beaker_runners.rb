@@ -96,7 +96,13 @@ module Beaker
                  environment: opts[:environment] || {},
                  acceptable_exit_codes: (0...256))
 
-        handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        if res.is_a? Array
+          res.each do |result|
+            handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), result.exit_code)
+          end
+        else
+          handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        end
         res
       end
     end
@@ -124,7 +130,13 @@ module Beaker
           expect_failures: true,
           acceptable_exit_codes: (0...256))
 
-        handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        if res.is_a? Array
+          res.each do |result|
+            handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), result.exit_code)
+          end
+        else
+          handle_puppet_run_returned_exit_code(get_acceptable_puppet_run_exit_codes(opts), res.exit_code)
+        end
         res
       end
     end
