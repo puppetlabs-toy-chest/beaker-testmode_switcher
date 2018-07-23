@@ -26,6 +26,14 @@ module Beaker
       # executes the supplied manifest using bundle and puppet apply
       # the opts hash works like the opts of [apply_manifest_on](http://www.rubydoc.info/github/puppetlabs/beaker/Beaker/DSL/Helpers/PuppetHelpers#apply_manifest_on-instance_method) in the Beaker DSL.
       # it accepts the following keys: :dry_run, :environment, :trace, :noop, and :debug
+      def execute_manifest_on(hosts, manifest, opts = {})
+        warn "hosts parameter is ignored for the local runner"
+        execute_manifest(manifest, opts)
+      end
+
+      # executes the supplied manifest using bundle and puppet apply
+      # the opts hash works like the opts of [apply_manifest_on](http://www.rubydoc.info/github/puppetlabs/beaker/Beaker/DSL/Helpers/PuppetHelpers#apply_manifest_on-instance_method) in the Beaker DSL.
+      # it accepts the following keys: :dry_run, :environment, :trace, :noop, and :debug
       def execute_manifest(manifest, opts = {})
         puts "Applied manifest [#{manifest}]" if ENV['DEBUG_MANIFEST']
         cmd = ["bundle exec puppet apply -e #{manifest.shellescape} --detailed-exitcodes --modulepath spec/fixtures/modules --libdir lib"]
