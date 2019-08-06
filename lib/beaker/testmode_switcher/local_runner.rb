@@ -80,6 +80,17 @@ module Beaker
         use_local_shell(cmd, opts)
       end
 
+      # retrieve a fact from local node
+      def fact(name)
+        result = use_local_shell(%Q(facter "#{name}" --json))
+
+        if result.kind_of?(Array)
+          result.map { |res| JSON.parse(res.stdout)[name] }
+        else
+          JSON.parse(result.stdout)[name]
+        end
+      end
+
       private
 
       # build a Beaker::Result with a successful exit_code and no output
